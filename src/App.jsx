@@ -7,7 +7,15 @@ function App() {
   const [maxScore, setMaxScore] = useState(0);
 
   function incrementCounter() {
-    setCounter(counter + 1);
+    // setCounter(counter + 1);
+    // if (counter > maxScore) setMaxScore(counter);
+    setCounter((prevCounter) => {
+      const newCounter = prevCounter + 1;
+      if (newCounter > maxScore) {
+        setMaxScore(newCounter);
+      }
+      return newCounter;
+    });
   }
 
   return (

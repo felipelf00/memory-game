@@ -11,8 +11,13 @@
 
 .score-container {
   position: absolute;
-  top: 20px;
+  top: 45px;
   right: 80px;
+}
+
+.loading {
+  margin: auto;
+  grid-column: 1 / 5;
 }
 
 .card-container {

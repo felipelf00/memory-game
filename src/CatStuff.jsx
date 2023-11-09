@@ -49,6 +49,7 @@ export default function ShowCats({ incrementCounter }) {
   const [cats, setCats] = useState([]);
   //uses IDs
   const [clickedCats, setClickedCats] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   function addClickedCat(id) {
     setClickedCats([...clickedCats, id]);
@@ -123,6 +124,7 @@ export default function ShowCats({ incrementCounter }) {
   // }
 
   async function populateCatList(count) {
+    setIsLoading(true);
     const newCats = [];
 
     for (let i = 0; i < count; i++) {
@@ -135,6 +137,8 @@ export default function ShowCats({ incrementCounter }) {
 
     nameCats(newCats);
     setCats(newCats);
+
+    setIsLoading(false);
   }
 
   console.log("list of cats:");
@@ -155,20 +159,27 @@ export default function ShowCats({ incrementCounter }) {
 
   return (
     <div className="card-container">
-      {cats.map((cat) => {
-        // console.log(cat.name);
-        // console.log(cat.data.data.id);
-        return (
-          <Cat
-            key={cat.data.data.id}
-            {...cat}
-            shuffleCats={shuffleCats}
-            incrementCounter={incrementCounter}
-            addClickedCat={addClickedCat}
-            clickedCats={clickedCats}
-          />
-        );
-      })}
+      {isLoading ? (
+        <div className="loading">
+          <h3>Loading...</h3>
+          <img src="./src/images/loading.gif" />
+        </div>
+      ) : (
+        cats.map((cat) => {
+          // console.log(cat.name);
+          // console.log(cat.data.data.id);
+          return (
+            <Cat
+              key={cat.data.data.id}
+              {...cat}
+              shuffleCats={shuffleCats}
+              incrementCounter={incrementCounter}
+              addClickedCat={addClickedCat}
+              clickedCats={clickedCats}
+            />
+          );
+        })
+      )}
     </div>
   );
 }
