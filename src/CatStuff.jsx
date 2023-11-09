@@ -20,24 +20,45 @@ let catNames = [
   "Clifton MacNamara",
   "Batatinha",
   "Ronaldo",
+  "Adalberto",
+  "Jackelyne",
 ];
 
-// let catNames = ["Steve", "Broccoli", "Bil", "Sabina"];
+function Cat(props) {
+  function handleClick() {
+    props.shuffleCats();
 
-function Cat(cat) {
+    if (props.clickedCats.includes(props.data.data.id)) {
+      //logic for losing game
+      console.log("you lose");
+    } else {
+      props.incrementCounter();
+      props.addClickedCat(props.data.data.id);
+    }
+  }
+
   return (
-    <div className="cat-card">
-      <img src={cat.data.data.images.fixed_height_downsampled.url} />
-      <p>{cat.name}</p>
+    <div className="cat-card" onClick={handleClick}>
+      <img src={props.data.data.images.fixed_height_downsampled.url} />
+      <p>{props.name}</p>
     </div>
   );
 }
 
-export default function ShowCats() {
+export default function ShowCats({ incrementCounter }) {
   const [cats, setCats] = useState([]);
+  //uses IDs
+  const [clickedCats, setClickedCats] = useState([]);
+
+  function addClickedCat(id) {
+    setClickedCats([...clickedCats, id]);
+    console.log(clickedCats);
+  }
+
+  const catCount = 12;
 
   useEffect(() => {
-    populateCatList(4);
+    populateCatList(catCount);
   }, []);
 
   function nameCats(cats) {
@@ -60,7 +81,10 @@ export default function ShowCats() {
         "https://api.giphy.com/v1/gifs/random?api_key=3IXGJRYgTecwybY6on1Ilu2f2vrvslQT&tag=cat&rating=g"
       );
       catData = await response.json();
-      if (!cats.some((cat) => cat.data.data.id === catData.data.id)) {
+      if (
+        !cats.some((cat) => cat.data.data.id === catData.data.id) &&
+        catData.data.images.fixed_height_downsampled.width <= 350
+      ) {
         found = true;
       }
     } while (found === false);
@@ -68,24 +92,48 @@ export default function ShowCats() {
     return catData;
   }
 
-  async function makeCat() {
-    const data = await getCatData();
-    // const name = getCatName();
-    const name = "Loading cat...";
-    return { name, data };
+  // async function makeCat() {
+  //   const data = await getCatData();
+  //   const name = "Loading cat...";
+  //   return { name, data };
+  // }
+
+  async function makeCat(attempts = 5) {
+    for (let i = 0; i < attempts; i++) {
+      const data = await getCatData();
+      if (!cats.some((cat) => cat.data.data.id === data.data.id)) {
+        // Cat is not a duplicate, return it
+        return { name: "Loading cat...", data };
+      }
+    }
+
+    return null;
   }
+
+  // async function populateCatList(count) {
+  //   const newCats = [];
+
+  //   for (let i = 0; i < count; i++) {
+  //     const cat = await makeCat();
+  //     newCats.push(cat);
+  //   }
+
+  //   nameCats(newCats);
+  //   setCats(newCats);
+  // }
 
   async function populateCatList(count) {
     const newCats = [];
 
     for (let i = 0; i < count; i++) {
-      const cat = await makeCat();
+      let cat = null;
+      while (cat === null) {
+        cat = await makeCat();
+      }
       newCats.push(cat);
     }
 
-    // newCats.forEach(cat => cat.name = giveCatName())
     nameCats(newCats);
-
     setCats(newCats);
   }
 
@@ -106,13 +154,21 @@ export default function ShowCats() {
   }
 
   return (
-    <div>
+    <div className="card-container">
       {cats.map((cat) => {
         // console.log(cat.name);
         // console.log(cat.data.data.id);
-        return <Cat key={cat.data.data.id} {...cat} />;
+        return (
+          <Cat
+            key={cat.data.data.id}
+            {...cat}
+            shuffleCats={shuffleCats}
+            incrementCounter={incrementCounter}
+            addClickedCat={addClickedCat}
+            clickedCats={clickedCats}
+          />
+        );
       })}
-      <button onClick={shuffleCats}>Shuffle</button>
     </div>
   );
 }

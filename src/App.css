@@ -1,6 +1,51 @@
 #root {
-  max-width: 1280px;
+  /* max-width: 1280px; */
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+}
+
+.root {
+  position: relative;
+}
+
+.score-container {
+  position: absolute;
+  top: 20px;
+  right: 80px;
+}
+
+.card-container {
+  display: grid;
+  gap: 20px;
+  /* grid-template-columns: repeat(auto-fit, minmax(1fr, 1fr)); */
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media screen and (min-width: 1200px) {
+  .card-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.cat-card {
+  width: 260px;
+  /* width: 100%; */
+  border-radius: 12px;
+  box-shadow: 0 0 8px #838383;
+  padding: 15px;
+  cursor: pointer;
+  position: relative;
+}
+
+.cat-card img {
+  max-width: 260px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.cat-card p {
+  margin: 1rem 0 0 0;
+  position: relative;
+  bottom: 10px;
 }
