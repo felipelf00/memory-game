@@ -143,7 +143,7 @@ export default function ShowCats({ incrementCounter, gameOver, counter }) {
       {isLoading ? (
         <div className="loading">
           <h3>Loading...</h3>
-          <img src="./public/loading.gif" />
+          <img src=".loading.gif" />
         </div>
       ) : (
         cats.map((cat) => {
