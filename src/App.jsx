@@ -30,9 +30,12 @@ function App() {
 
   return (
     <>
-      <h2>Memory game</h2>
-      <p>Don&apos;t click the same cat twice!</p>
-      <Score counter={counter} maxScore={maxScore} />
+      <header>
+        {/* <h2>Memory game</h2>
+        <p>Don&apos;t click the same cat twice!</p> */}
+        <h2>Don&apos;t click the same cat twice!</h2>
+        <Score counter={counter} maxScore={maxScore} />
+      </header>
       {gameIsOver ? (
         <GameOverScreen newGame={newGame} counter={counter} />
       ) : (
@@ -57,7 +60,8 @@ function GameOverScreen({ newGame, counter }) {
       ) : (
         <div>
           <h2>Congratulations!</h2>
-          <h3>You achieved the maximum score. You are a true cat master.</h3>
+          <h3>You achieved the maximum score</h3>
+          <h3>You are a true cat master</h3>
         </div>
       )}
       <button onClick={newGame}>Play again</button>

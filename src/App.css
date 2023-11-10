@@ -3,20 +3,33 @@
   margin: 0 auto;
   /* padding: 2rem; */
   text-align: center;
-  position: relative;
+  /* position: relative; */
   width: 100%;
   height: 100%;
 }
 
-/* .root {
+header {
   position: relative;
-  background-color: red;
-} */
+  margin-bottom: 60px;
+}
+
+header h2 {
+  font-size: 30px;
+}
 
 .score-container {
   position: absolute;
-  top: 45px;
-  right: 80px;
+  top: 0px;
+  /* right: 228px; */
+  left: 20px;
+  left: 0;
+  box-shadow: 0 0 6px #838383;
+  border-radius: 6px;
+  padding: 10px 16px;
+}
+
+.score-container p {
+  margin: 0;
 }
 
 .loading {
@@ -29,6 +42,7 @@
   gap: 20px;
   /* grid-template-columns: repeat(auto-fit, minmax(1fr, 1fr)); */
   grid-template-columns: repeat(3, 1fr);
+  margin-bottom: 69px;
 }
 
 @media screen and (min-width: 1200px) {
@@ -41,22 +55,29 @@
   width: 260px;
   /* width: 100%; */
   border-radius: 12px;
-  box-shadow: 0 0 8px #838383;
-  padding: 15px;
+  box-shadow: 0 0 7px #838383;
+  padding: 10px;
   cursor: pointer;
   position: relative;
+}
+
+.cat-card:hover {
+  box-shadow: 0 0 10px #444444;
 }
 
 .cat-card img {
   max-width: 260px;
   height: 200px;
+  height: 160px;
   object-fit: cover;
+  border-radius: 10px;
 }
 
 .cat-card p {
-  margin: 1rem 0 0 0;
+  /* margin: 1rem 0 0 0;
   position: relative;
-  bottom: 10px;
+  bottom: 10px; */
+  margin: 0;
 }
 
 .game-over {
