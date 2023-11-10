@@ -27,10 +27,9 @@ let catNames = [
 function Cat(props) {
   function handleClick() {
     props.shuffleCats();
-
+    console.log("Score: " + props.counter);
     if (props.clickedCats.includes(props.data.data.id)) {
-      //logic for losing game
-      console.log("you lose");
+      props.gameOver();
     } else {
       props.incrementCounter();
       props.addClickedCat(props.data.data.id);
@@ -45,7 +44,7 @@ function Cat(props) {
   );
 }
 
-export default function ShowCats({ incrementCounter }) {
+export default function ShowCats({ incrementCounter, gameOver, counter }) {
   const [cats, setCats] = useState([]);
   //uses IDs
   const [clickedCats, setClickedCats] = useState([]);
@@ -93,12 +92,6 @@ export default function ShowCats({ incrementCounter }) {
     return catData;
   }
 
-  // async function makeCat() {
-  //   const data = await getCatData();
-  //   const name = "Loading cat...";
-  //   return { name, data };
-  // }
-
   async function makeCat(attempts = 5) {
     for (let i = 0; i < attempts; i++) {
       const data = await getCatData();
@@ -110,18 +103,6 @@ export default function ShowCats({ incrementCounter }) {
 
     return null;
   }
-
-  // async function populateCatList(count) {
-  //   const newCats = [];
-
-  //   for (let i = 0; i < count; i++) {
-  //     const cat = await makeCat();
-  //     newCats.push(cat);
-  //   }
-
-  //   nameCats(newCats);
-  //   setCats(newCats);
-  // }
 
   async function populateCatList(count) {
     setIsLoading(true);
@@ -176,6 +157,8 @@ export default function ShowCats({ incrementCounter }) {
               incrementCounter={incrementCounter}
               addClickedCat={addClickedCat}
               clickedCats={clickedCats}
+              gameOver={gameOver}
+              counter={counter}
             />
           );
         })
