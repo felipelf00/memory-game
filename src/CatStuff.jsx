@@ -85,7 +85,15 @@ export default function ShowCats({ incrementCounter, gameOver, counter }) {
         !cats.some((cat) => cat.data.data.id === catData.data.id) &&
         catData.data.images.fixed_height_downsampled.width <= 350
       ) {
+        // console.log("example cats[0]:" + cats[0]);
+        // console.log("found cat:" + catData.data.id);
         found = true;
+      } else {
+        // console.log("Duplicate or too wide.");
+        // console.log("Id: " + catData.data.id);
+        // console.log(
+        //   "width: " + catData.data.images.fixed_height_downsampled.width
+        // );
       }
     } while (found === false);
 
@@ -108,12 +116,28 @@ export default function ShowCats({ incrementCounter, gameOver, counter }) {
     setIsLoading(true);
     const newCats = [];
 
-    for (let i = 0; i < count; i++) {
-      let cat = null;
-      while (cat === null) {
-        cat = await makeCat();
+    // for (let i = 0; i < count; i++) {
+    //   let cat = null;
+    //   while (cat === null) {
+    //     cat = await makeCat();
+    //   }
+    //   newCats.push(cat);
+    // }
+
+    while (newCats.length < count) {
+      let newCat = null;
+      while (newCat === null) {
+        newCat = await makeCat();
       }
-      newCats.push(cat);
+      // console.log("newCat: ");
+      // console.log(newCat);
+      // console.log("newCats: ");
+      // console.log(newCats);
+      if (!newCats.some((cat) => cat.data.data.id === newCat.data.data.id)) {
+        newCats.push(newCat);
+      } else {
+        console.log("found duplicate!");
+      }
     }
 
     nameCats(newCats);
