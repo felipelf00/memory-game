@@ -22,6 +22,7 @@ let catNames = [
   "Ronaldo",
   "Adalberto",
   "Jackelyne",
+  "Shiva",
 ];
 
 function Cat(props) {
@@ -81,58 +82,30 @@ export default function ShowCats({ incrementCounter, gameOver, counter }) {
         "https://api.giphy.com/v1/gifs/random?api_key=3IXGJRYgTecwybY6on1Ilu2f2vrvslQT&tag=cat&rating=g"
       );
       catData = await response.json();
-      if (
-        !cats.some((cat) => cat.data.data.id === catData.data.id) &&
-        catData.data.images.fixed_height_downsampled.width <= 350
-      ) {
-        // console.log("example cats[0]:" + cats[0]);
-        // console.log("found cat:" + catData.data.id);
+      if (catData.data.images.fixed_height_downsampled.width <= 350) {
         found = true;
-      } else {
-        // console.log("Duplicate or too wide.");
-        // console.log("Id: " + catData.data.id);
-        // console.log(
-        //   "width: " + catData.data.images.fixed_height_downsampled.width
-        // );
       }
     } while (found === false);
 
     return catData;
   }
 
-  async function makeCat(attempts = 5) {
-    for (let i = 0; i < attempts; i++) {
-      const data = await getCatData();
-      if (!cats.some((cat) => cat.data.data.id === data.data.id)) {
-        // Cat is not a duplicate, return it
-        return { name: "Loading cat...", data };
-      }
-    }
-
-    return null;
+  async function makeCat() {
+    const data = await getCatData();
+    // Cat is not a duplicate, return it
+    return { name: "Loading cat...", data };
   }
 
   async function populateCatList(count) {
     setIsLoading(true);
     const newCats = [];
 
-    // for (let i = 0; i < count; i++) {
-    //   let cat = null;
-    //   while (cat === null) {
-    //     cat = await makeCat();
-    //   }
-    //   newCats.push(cat);
-    // }
-
     while (newCats.length < count) {
       let newCat = null;
       while (newCat === null) {
         newCat = await makeCat();
       }
-      // console.log("newCat: ");
-      // console.log(newCat);
-      // console.log("newCats: ");
-      // console.log(newCats);
+
       if (!newCats.some((cat) => cat.data.data.id === newCat.data.data.id)) {
         newCats.push(newCat);
       } else {
